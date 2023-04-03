@@ -4,13 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 // ArticleComment Class
@@ -21,26 +15,19 @@ import java.util.Objects;
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
-@EntityListeners(AuditingEntityListener.class)
-@Entity(name = "article_comment")
-public class ArticleComment {
+// ArticleComment Class => Lombok
+// AuditingFields => inherit[Columns = createdAt, createdBy, modifiedAt, modifiedBy]
+@Entity
+public class ArticleComment extends AuditingFields {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // Field add => id, article_id, content, createdAt, createdBy, modifiedAt, modifiedBy
     private Long id; // PK
     @Setter @ManyToOne(optional = false) private Article article; // FK[게시글 ID]
     @Setter @Column(nullable = false, length = 500) private String content; // varchar[본문]
-    @CreatedDate
-    @Column(nullable = false) private LocalDateTime createdAt; // datetime[생성일시]
-    @CreatedBy
-    @Column(nullable = false, length = 100) private String createdBy; // varchar[생성자]
-    @LastModifiedDate
-    @Column(nullable = false) private LocalDateTime modifiedAt; // datetime[수정일시]
-    @LastModifiedBy
-    @Column(nullable = false, length = 100) private String modifiedBy; // varchar[수정자]
 
     // 기본 생성자
-    public ArticleComment() {}
+    protected ArticleComment() {}
 
     // Constructor => article, content
     private ArticleComment(Article article, String content) {
