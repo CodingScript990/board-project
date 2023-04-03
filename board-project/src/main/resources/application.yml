@@ -18,9 +18,12 @@ logging:
 
 spring:
   datasource:
+#    url: jdbc:h2:mem:testdb
+#    username: sa
+#    driver-class-name: org.h2.Driver
     url: jdbc:mysql://localhost:3306/board
-    username:
-    password:
+    username: script
+    password: testTestpw!@#$&*
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     defer-datasource-initialization: true
@@ -33,9 +36,6 @@ spring:
         format_sql: true
         show_sql: true
         default_batch_fetch_size: 100
-  h2:
-    console:
-      enabled: true
   sql:
     init:
       mode: always
