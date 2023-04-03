@@ -1,15 +1,69 @@
 package com.board.domain;
 
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 // ArticleComment Class
+@Getter
+@ToString
+@Table(indexes = {
+        @Index(columnList = "content"),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "createdBy")
+})
+@EntityListeners(AuditingEntityListener.class)
+@Entity(name = "article_comment")
 public class ArticleComment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // Field add => id, article_id, content, createdAt, createdBy, modifiedAt, modifiedBy
     private Long id; // PK
-    private Article article; // FK[게시글 ID]
-    private String content; // varchar[본문]
-    private LocalDateTime createdAt; // datetime[생성일시]
-    private String createdBy; // varchar[생성자]
-    private LocalDateTime modifiedAt; // datetime[수정일시]
-    private String modifiedBy; // varchar[수정자]
+    @Setter @ManyToOne(optional = false) private Article article; // FK[게시글 ID]
+    @Setter @Column(nullable = false, length = 500) private String content; // varchar[본문]
+    @CreatedDate
+    @Column(nullable = false) private LocalDateTime createdAt; // datetime[생성일시]
+    @CreatedBy
+    @Column(nullable = false, length = 100) private String createdBy; // varchar[생성자]
+    @LastModifiedDate
+    @Column(nullable = false) private LocalDateTime modifiedAt; // datetime[수정일시]
+    @LastModifiedBy
+    @Column(nullable = false, length = 100) private String modifiedBy; // varchar[수정자]
+
+    // 기본 생성자
+    public ArticleComment() {}
+
+    // Constructor => article, content
+    private ArticleComment(Article article, String content) {
+        this.article = article;
+        this.content = content;
+    }
+
+    // Factory method
+    public static ArticleComment of(Article article, String content) {
+        return new ArticleComment(article, content);
+    }
+
+    // Equals => id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ArticleComment that)) return false;
+        return id != null && id.equals(that.id);
+    }
+
+    // hashCode => id
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
