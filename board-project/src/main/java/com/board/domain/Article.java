@@ -1,16 +1,84 @@
 package com.board.domain;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-// Article Class
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Objects;
+import java.util.Set;
+
+@Getter
+@ToString
+@Table(indexes = {
+        @Index(columnList = "title"),
+        @Index(columnList = "hashtag"),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "createdBy")
+})
+@EntityListeners(AuditingEntityListener.class)
+@Entity
 public class Article {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     // Filed add => id, title, content, hashtag, createdAt, createdBy, modifiedAt, modifiedBy
     private Long id; // PK
-    private String title; // varchar[제목]
-    private String content; // varchar[본문]
-    private String hashtag; // varchar[해시태그]
-    private LocalDateTime createdAt; // datetime[생성일시]
-    private String createdBy; // varchar[생성자]
-    private LocalDateTime modifiedAt; // datetime[수정일시]
-    private String modifiedBy; // varchar[수정자]
+
+    @Setter @Column(nullable = false) private String title; // varchar[제목]
+    @Setter @Column(nullable = false, length = 10000) private String content; // varchar[본문]
+
+    @Setter private String hashtag; // varchar[해시태그]
+
+    // JPA 기능 => OneToMany
+    // Set<ArticleComment> : 중복말고 한번에 Collection 을 보겠다는 의미
+    // @ToString.Exclude : Article 은 단방향! 양방향성은 ArticleComment 만! 그래서
+    // Article -> ArticleComment / ArticleComment <-> Article
+    @ToString.Exclude
+    @OrderBy("id")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
+
+    @CreatedDate @Column(nullable = false) private LocalDateTime createdAt; // datetime[생성일시]
+    @CreatedBy @Column(nullable = false, length = 100) private String createdBy; // varchar[생성자]
+    @LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; // datetime[수정일시]
+    @LastModifiedBy @Column(nullable = false, length = 100) private String modifiedBy; // varchar[수정자]
+
+    // 기본 생성자
+    protected Article() {}
+
+    // Constructor => title, content, hashtag
+    private Article(String title, String content, String hashtag) {
+        this.title = title;
+        this.content = content;
+        this.hashtag = hashtag;
+    }
+
+    // Factory Method => new keyword 사용없이 사용하기 위한 작업
+    public static Article of(String title, String content, String hashtag) {
+        // 생성자를 사용하기 위한 작업
+        return new Article(title, content, hashtag);
+    }
+
+    // Equals & HashCode 작업
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Article article)) return false;
+        // null 이 아니면 동일성 검사하겠다 && article id 가 동일하면 동일성 검사를 하겠다!
+        return id != null && id.equals(article.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
+
+// Article Class => Lombok
