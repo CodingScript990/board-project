@@ -19,15 +19,23 @@ repositories {
 }
 
 dependencies {
+    // SpringBoot Dependency [actuator, web, jpa, rest, explorer(시각적으로 보여주기 위한 것)]
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.data:spring-data-rest-hal-explorer'
+    // MySQL Dependency [Connector-j, h2]
     implementation 'com.mysql:mysql-connector-j:8.0.32'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
+    // Lombok Dependency
     compileOnly 'org.projectlombok:lombok'
+    // SpringBoot Devtools Dependency
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // AnnotationProcessor Lombok Dependency
     annotationProcessor 'org.projectlombok:lombok'
+    // SpringBoot Test Dependency
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
