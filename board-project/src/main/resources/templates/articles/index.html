@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <!-- xmlns : Thymeleaf Template 을 사용한다는 의미 -->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board Page</title>
 </head>
 
 <body>
     <!-- Semantic Tag 를 이용하여 틀을 짬 -->
     <!-- th:replace=~{header :: header} : header 를 사용할 것이고, header Element 를 찾아서 보여주겠다는 의미! -->
-    <header th:replace="header :: header"></header>
+<!--    <header th:replace="header :: header"></header>-->
+    <header id="header"></header>
 
     <main>
         <!-- 1. Search -->
@@ -59,7 +60,7 @@
                 </tr>
             </tbody>
         </table>
-
+        <!-- Navigation -->
         <nav>
             <table>
                 <tr>
@@ -73,11 +74,9 @@
             </table>
         </nav>
     </main>
-
-    <footer th:replace="footer :: footer">
-        <hr>
-        footer 삽입부
-    </footer>
+    <!-- Footer -->
+<!--    <footer th:replace="footer :: footer">-->
+    <footer id="footer"></footer>
 </body>
 
 </html>

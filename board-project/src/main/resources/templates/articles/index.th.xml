@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Thymeleaf 를 검사해서 HTML 문서에 Thymeleaf Template 속성의 Data 를 넣어주겠다는 의미 -->
+<!-- 순수 HTML 문서에 Thymeleaf Template 을 직접사용 하지 않고 thlogic tag 를 사용하여 HTML tag 에 Thymeleaf Template 속성을 부여하겠다는 의미임!(순수 HTML 에 직접 사용X, 간접적으로 적용이 되게 Version up 하면서 따로 이렇게 설정이 가능!) -->
+<thlogic>
+    <!--  Header tag 를 불러옴  -->
+    <attr sel="#header" th:replace="header :: header" />
+    <!--  Footer tag 를 불러옴  -->
+    <attr sel="#footer" th:replace="footer :: footer" />
+</thlogic>
