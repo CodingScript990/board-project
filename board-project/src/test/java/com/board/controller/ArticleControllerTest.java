@@ -48,7 +48,7 @@ class ArticleControllerTest {
 		}
 
 		// View Get method => Post Detail
-		@Disabled("구현 중")
+//		@Disabled("구현 중")
 		@DisplayName("View[GET] - Post Detail page - Successful Calling")
 		@Test
 		public void givenNothing_whenRequestingArticleView_thenReturnsArticleView() throws Exception {

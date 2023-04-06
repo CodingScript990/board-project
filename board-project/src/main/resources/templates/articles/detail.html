@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!-- xmlns : Thymeleaf Template 을 사용한다는 의미 -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Post Page</title>
+</head>
+
+<body>
+    <!-- Semantic Tag 를 이용하여 틀을 짬 -->
+
+    <header id="header"></header>
+
+    <main>
+        <header>
+            <h1>First Post</h1>
+        </header>
+
+        <aside>
+            <p>Test</p>
+            <p><a href="mailto:a41787192@gmail.com">test@gmail.com</a> </p>
+            <p><time datetime="2023-04-06T00:00:00">2023-04-06</time></p>
+            <p>#java</p>
+        </aside>
+
+        <section>
+            <p>본문<br><br></p>
+
+            <div>
+                <form>
+                    <label for="articleComment" hidden="hidden">Comment</label>
+                    <textarea id="articleComment" rows="3" placeholder="Comment Write...."></textarea>
+                    <button type="submit">Write</button>
+                </form>
+
+                <ul>
+                    <li>
+                        <div>
+                            <time><small>2023-01-01</small></time>
+                            <strong>Test</strong>
+                            <p>
+                                Lorem ipsum dolor sit amet,
+                                Lorem ipsum dolor sit amet
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div>
+                            <time><small>2023-01-01</small></time>
+                            <strong>Test2</strong>
+                            <p>
+                                Lorem ipsum dolor sit amet,
+                                :orem ipsum dolor sit amet
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <nav>
+                <a href="#">Previous Post</a>
+                <a href="#">Next Post</a>
+            </nav>
+        </section>
+    </main>
+
+    <footer id="footer"></footer>
+</body>
+
+</html>
