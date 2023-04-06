@@ -32,6 +32,8 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     // Lombok Dependency
     compileOnly 'org.projectlombok:lombok'
+    // SpringBoot Configuration Processor Dependency : User 가 Custom 한 것을 Processor 에서 사용하기 위한 것
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     // SpringBoot Devtools Dependency
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     // AnnotationProcessor Lombok Dependency
