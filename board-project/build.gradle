@@ -19,18 +19,24 @@ repositories {
 }
 
 dependencies {
-    // SpringBoot Dependency [actuator, web, jpa, rest, explorer(시각적으로 보여주기 위한 것)]
+    // SpringBoot Dependency [actuator, web, jpa, rest, explorer(시각적으로 보여주기 위한 것), thymeleaf, security]
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     implementation 'org.springframework.data:spring-data-rest-hal-explorer'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
     // MySQL Dependency [Connector-j, h2]
-    implementation 'com.mysql:mysql-connector-j:8.0.32'
+    implementation 'com.mysql:mysql-connector-j'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'com.mysql:mysql-connector-j'
     // Lombok Dependency
     compileOnly 'org.projectlombok:lombok'
+    // SpringBoot Configuration Processor Dependency : User 가 Custom 한 것을 Processor 에서 사용하기 위한 것
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     // SpringBoot Devtools Dependency
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     // AnnotationProcessor Lombok Dependency
@@ -43,7 +49,8 @@ dependencies {
     implementation "com.querydsl:querydsl-core"
     implementation "com.querydsl:querydsl-collections"
     // jpa -> jakarta 로 변경 후 generated folder 에 file 들이 잘 컴파일됨!(주의)
-    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta" // JPA (X) => JAKARTA (O)
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    // JPA (X) => JAKARTA (O)
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 
@@ -64,7 +71,7 @@ tasks.withType(JavaCompile) {
 
 // Java Source Set 에 QueryDSL QClass location add
 sourceSets {
-    main.java.srcDirs += [ generated ]
+    main.java.srcDirs += [generated]
 }
 
 // Gradle clean 시에 QClass 디렉토리 Delete
