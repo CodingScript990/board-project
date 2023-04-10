@@ -2,6 +2,7 @@ package com.board.repository;
 
 import com.board.config.JpaConfig;
 import com.board.domain.Article;
+import com.board.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,16 @@ class JpaRepositoryTest {
 		// Test Filed
 		private final ArticleRepository articleRepository;
 		private final ArticleCommentRepository articleCommentRepository;
+		private final UserAccountRepository userAccountRepository;
 
 		public JpaRepositoryTest(
 				@Autowired ArticleRepository articleRepository,
-				@Autowired ArticleCommentRepository articleCommentRepository)
+				@Autowired ArticleCommentRepository articleCommentRepository,
+				@Autowired UserAccountRepository userAccountRepository)
 		{
 			this.articleRepository = articleRepository;
 			this.articleCommentRepository = articleCommentRepository;
+			this.userAccountRepository = userAccountRepository;
 		}
 
 		// Test => select
@@ -34,14 +38,15 @@ class JpaRepositoryTest {
 		@Test
 		void givenTestData_whenSelecting_thenWorksFine() {
 			// Given
+				long previousCount = articleRepository.count();
+				UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+				Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
 			// When => import.sql data 가 얼마나 있는지 체크
-			List<Article> articles = articleRepository.findAll();
+				articleRepository.save(article);
 
 			// Then
-			assertThat(articles)
-					.isNotNull()
-					.hasSize(123);
+				assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
 		}
 
 		// Test => insert
@@ -52,7 +57,7 @@ class JpaRepositoryTest {
 			// previousCount long type 으로 article table data count
 			long previousCount = articleRepository.count();
 			// When
-			Article savedArticle = articleRepository.save(Article.of("new article", "new content", "#spring"));
+			Article savedArticle = articleRepository.save(Article.of(1, "new article", "new content", "#spring"));
 			// Then
 			assertThat(articleRepository.count()).isEqualTo(previousCount + 1);
 		}
