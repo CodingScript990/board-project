@@ -9,7 +9,7 @@ import java.util.Objects;
 
 // ArticleComment Class
 @Getter
-@ToString
+@ToString(callSuper = true)
 @Table(indexes = {
         @Index(columnList = "content"),
         @Index(columnList = "createdAt"),
@@ -24,20 +24,23 @@ public class ArticleComment extends AuditingFields {
     // Field add => id, article_id, content, createdAt, createdBy, modifiedAt, modifiedBy
     private Long id; // PK
     @Setter @ManyToOne(optional = false) private Article article; // FK[게시글 ID]
+
+    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // User Info(ID)
     @Setter @Column(nullable = false, length = 500) private String content; // varchar[본문]
 
     // 기본 생성자
     protected ArticleComment() {}
 
-    // Constructor => article, content
-    private ArticleComment(Article article, String content) {
+    // Constructor => article, userAccount, content
+    private ArticleComment(Article article, UserAccount userAccount, String content) {
         this.article = article;
+        this.userAccount = userAccount;
         this.content = content;
     }
 
     // Factory method
-    public static ArticleComment of(Article article, String content) {
-        return new ArticleComment(article, content);
+    public static ArticleComment of(Article article, UserAccount userAccount, String content) {
+        return new ArticleComment(article, userAccount, content);
     }
 
     // Equals => id
