@@ -4,6 +4,8 @@ import com.board.domain.Article;
 import com.board.domain.QArticle;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -20,6 +22,11 @@ public interface ArticleRepository extends
 				QuerydslPredicateExecutor<Article>,
 				// QClass => <T> 는 Entity type 이 들어간다는 의미!
 				QuerydslBinderCustomizer<QArticle> {
+		Page<Article> findByTitleContaining(String title, Pageable pageable);
+		Page<Article> findByContentContaining(String content, Pageable pageable);
+		Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+		Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+		Page<Article> findByHashtag(String hashtag, Pageable pageable);
 		// Search 할때 Custom 한대로 동작하도록 함
 		// customize method add
 		@Override

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AuditingFields {
+public abstract class AuditingFields {
 		// updatable = false => 최초 1회만 하고 그 이상은 update 되지 않게!
 		@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 		@CreatedDate
