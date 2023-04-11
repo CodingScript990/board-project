@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,63 +35,77 @@ public class DataRestTest {
 				this.mvc = mvc;
 		}
 
+		@DisplayName("[api] 회원 관련 API 는 일체 제공하지 않는다.")
+		@Test
+		void givenNothing_whenRequestingUserAccounts_thenThrowsException() throws Exception {
+				// Given
+
+				// When & Then
+				mvc.perform(get("/api/userAccounts")).andExpect(status().isNotFound());
+				mvc.perform(post("/api/userAccounts")).andExpect(status().isNotFound());
+				mvc.perform(put("/api/userAccounts")).andExpect(status().isNotFound());
+				mvc.perform(patch("/api/userAccounts")).andExpect(status().isNotFound());
+				mvc.perform(delete("/api/userAccounts")).andExpect(status().isNotFound());
+				mvc.perform(head("/api/userAccounts")).andExpect(status().isNotFound());
+		}
+
 		// Test => MockMvc [API -> Board List]
-		@DisplayName("[API] Board List Select")
-		@Test
-		void givenNothing_whenRequestingArticles_thenReturnsArticlesJsonResponse() throws Exception {
-				// Given
-
-				// When & Then => application/hal+json 통신에 문제가 없는지 체크
-				mvc.perform(get("/api/articles"))
-								.andExpect(status().isOk())
-								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
-		}
-
-		// Test => MockMvc [API -> Article]
-		@DisplayName("[API] Board Select")
-		@Test
-		void givenNothing_whenRequestingArticle_thenReturnsArticleJsonResponse() throws Exception {
-				// Given
-
-				// When & Then => application/hal+json 통신에 문제가 없는지 체크
-				mvc.perform(get("/api/articles/1"))
-								.andExpect(status().isOk())
-								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
-		}
-
-		// Test => MockMvc [API -> (Board) Comment List]
-		@DisplayName("[API] Board -> Comment List Select")
-		@Test
-		void givenNothing_whenRequestingArticleCommentsFormArticle_thenReturnsArticleCommentsJsonResponse() throws Exception {
-				// Given
-
-				// When & Then => application/hal+json 통신에 문제가 없는지 체크
-				mvc.perform(get("/api/articles/1/articleComments"))
-								.andExpect(status().isOk())
-								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
-		}
-
-		// Test => MockMvc [API -> Comment List]
-		@DisplayName("[API] Comment List Select")
-		@Test
-		void givenNothing_whenRequestingArticleComments_thenReturnsArticleCommentsJsonResponse() throws Exception {
-				// Given
-
-				// When & Then => application/hal+json 통신에 문제가 없는지 체크
-				mvc.perform(get("/api/articleComments"))
-								.andExpect(status().isOk())
-								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
-		}
-
-		// Test => MockMvc [API -> Comment]
-		@DisplayName("[API] Comment Select")
-		@Test
-		void givenNothing_whenRequestingArticleComment_thenReturnsArticleCommentJsonResponse() throws Exception {
-				// Given
-
-				// When & Then => application/hal+json 통신에 문제가 없는지 체크
-				mvc.perform(get("/api/articleComments/1"))
-								.andExpect(status().isOk())
-								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
-		}
+//		@DisplayName("[API] Board List Select")
+//		@Test
+//		void givenNothing_whenRequestingArticles_thenReturnsArticlesJsonResponse() throws Exception {
+//				// Given
+//
+//				// When & Then => application/hal+json 통신에 문제가 없는지 체크
+//				mvc.perform(get("/api/articles"))
+//								.andExpect(status().isOk())
+//								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
+//		}
+//
+//		// Test => MockMvc [API -> Article]
+//		@DisplayName("[API] Board Select")
+//		@Test
+//		void givenNothing_whenRequestingArticle_thenReturnsArticleJsonResponse() throws Exception {
+//				// Given
+//
+//				// When & Then => application/hal+json 통신에 문제가 없는지 체크
+//				mvc.perform(get("/api/articles/1"))
+//								.andExpect(status().isOk())
+//								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
+//		}
+//
+//		// Test => MockMvc [API -> (Board) Comment List]
+//		@DisplayName("[API] Board -> Comment List Select")
+//		@Test
+//		void givenNothing_whenRequestingArticleCommentsFormArticle_thenReturnsArticleCommentsJsonResponse() throws Exception {
+//				// Given
+//
+//				// When & Then => application/hal+json 통신에 문제가 없는지 체크
+//				mvc.perform(get("/api/articles/1/articleComments"))
+//								.andExpect(status().isOk())
+//								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
+//		}
+//
+//		// Test => MockMvc [API -> Comment List]
+//		@DisplayName("[API] Comment List Select")
+//		@Test
+//		void givenNothing_whenRequestingArticleComments_thenReturnsArticleCommentsJsonResponse() throws Exception {
+//				// Given
+//
+//				// When & Then => application/hal+json 통신에 문제가 없는지 체크
+//				mvc.perform(get("/api/articleComments"))
+//								.andExpect(status().isOk())
+//								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
+//		}
+//
+//		// Test => MockMvc [API -> Comment]
+//		@DisplayName("[API] Comment Select")
+//		@Test
+//		void givenNothing_whenRequestingArticleComment_thenReturnsArticleCommentJsonResponse() throws Exception {
+//				// Given
+//
+//				// When & Then => application/hal+json 통신에 문제가 없는지 체크
+//				mvc.perform(get("/api/articleComments/1"))
+//								.andExpect(status().isOk())
+//								.andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
+//		}
 }

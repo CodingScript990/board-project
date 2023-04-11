@@ -10,6 +10,8 @@ import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
+import java.util.List;
+
 // ArticleCommentRepository Interface  => Inherit[JpaRepository]
 // @RepositoryRestResource => Spring Data Rest API 를 사용하기 위한 작업
 @RepositoryRestResource
@@ -20,6 +22,7 @@ public interface ArticleCommentRepository extends
 				QuerydslPredicateExecutor<ArticleComment>,
 				// QClass => <T> 는 Entity type 이 들어간다는 의미!
 				QuerydslBinderCustomizer<QArticleComment> {
+		List<ArticleComment> findByArticle_Id(Long articleId);
 		// customize method add
 		@Override
 		default void customize(QuerydslBindings bindings, QArticleComment root) {

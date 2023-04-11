@@ -9,24 +9,39 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
+// @Setter : Class 전체적으로 걸면 안됨! (id) 등을 setter로 변경해버릴 수 있기 때문임
+// case by case로 전체적으로 거는 경우도 있긴함
 @Getter
+// ToString.Exclude 를 활성화 해주겠다는 의미
 @ToString(callSuper = true)
+// @Table 역할 : DB Schema 에서 필요로 한 것을 Mapping 해주는 의미
 @Table(indexes = {
         @Index(columnList = "title"),
         @Index(columnList = "hashtag"),
         @Index(columnList = "createdAt"),
         @Index(columnList = "createdBy")
 })
+// @Entity 역할 : DB Table 과 Class(VO,DTO)와 Mapping 하여 Field(Table Schema) 들을 사용하겠다는 의미
 @Entity
 // Article Class => Lombok
 // AuditingFields => inherit[Columns = createdAt, createdBy, modifiedAt, modifiedBy]
 public class Article extends AuditingFields {
+    // @Id : Object 의 Primary Key 를 의미함, JPA 는 id 를 통해 Object 를 구분함
     @Id
+    // @GeneratedValue : 주키의 값을 위한 Auto 생성 전략을 명시하는데 사용됨
+    /**
+     * GeneratedValue 명시(4가지)
+     * 1. AUTO - (Persistence provider) 특정 DB에 맞게 자동 선택을 말함
+     * 2. IDENTITY - DB 의 Identity column을 이용함
+     * 3. SEQUENCE - DB의 SEQUENCE column을 이용함
+     * 4. TABLE - 유일성이 보장된 DB Table을 이용함
+     */
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     // Filed add => id, title, content, hashtag, createdAt, createdBy, modifiedAt, modifiedBy
     private Long id; // PK
 
-    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // User Info(ID)
+    // N:1 관계로 UserAccount type userAccount 로 값을 받을 받을 거임
+    @Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
 
     @Setter @Column(nullable = false) private String title; // varchar[제목]
     @Setter @Column(nullable = false, length = 10000) private String content; // varchar[본문]
