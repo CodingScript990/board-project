@@ -27,6 +27,7 @@ public record ArticleWithCommentsDto(
 				return new ArticleWithCommentsDto(id, userAccountDto, articleCommentDtos, title, content, hashtag, createdAt, createdBy, modifiedAt, modifiedBy);
 		}
 
+		// ArticleComments 를 가지고 DTO 상태로 형변환해서 사용할 수 있도록 작업!
 		public static ArticleWithCommentsDto from(Article entity) {
 				return new ArticleWithCommentsDto(
 								entity.getId(),
