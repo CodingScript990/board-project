@@ -22,10 +22,15 @@ public interface ArticleRepository extends
 				QuerydslPredicateExecutor<Article>,
 				// QClass => <T> 는 Entity type 이 들어간다는 의미!
 				QuerydslBinderCustomizer<QArticle> {
+		// Page 에서 title => finding
 		Page<Article> findByTitleContaining(String title, Pageable pageable);
+		// Page 에서 Content => finding
 		Page<Article> findByContentContaining(String content, Pageable pageable);
+		// Page 에서 Article[UserId] => finding
 		Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+		// Page 에서 Article[nickname] => finding
 		Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+		// page 에서 Article[hashtag] => finding
 		Page<Article> findByHashtag(String hashtag, Pageable pageable);
 		// Search 할때 Custom 한대로 동작하도록 함
 		// customize method add
