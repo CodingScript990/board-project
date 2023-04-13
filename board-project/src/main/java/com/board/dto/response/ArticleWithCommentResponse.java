@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 /**
  * A DTO for the {@link com.board.domain.ArticleComment} entity
  */
-public record ArticleWithCommentsResponse(
+public record ArticleWithCommentResponse(
 				Long id,
 				String title,
 				String content,
@@ -21,17 +21,17 @@ public record ArticleWithCommentsResponse(
 				String nickname,
 				Set<ArticleCommentResponse> articleCommentsResponse
 ) implements Serializable {
-		public static ArticleWithCommentsResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
-				return new ArticleWithCommentsResponse(id, title, content, hashtag, createdAt, email, nickname, articleCommentResponses);
+		public static ArticleWithCommentResponse of(Long id, String title, String content, String hashtag, LocalDateTime createdAt, String email, String nickname, Set<ArticleCommentResponse> articleCommentResponses) {
+				return new ArticleWithCommentResponse(id, title, content, hashtag, createdAt, email, nickname, articleCommentResponses);
 		}
 
-		public static ArticleWithCommentsResponse from(ArticleWithCommentsDto dto) {
+		public static ArticleWithCommentResponse from(ArticleWithCommentsDto dto) {
 				String nickname = dto.userAccountDto().nickname();
 				if (nickname == null || nickname.isBlank()) {
 						nickname = dto.userAccountDto().userId();
 				}
 
-				return new ArticleWithCommentsResponse(
+				return new ArticleWithCommentResponse(
 								dto.id(),
 								dto.title(),
 								dto.content(),

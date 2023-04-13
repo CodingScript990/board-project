@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 /**
  * A DTO for the {@link com.board.domain.Article} entity
  */
-// 회원 정보만 가지고 있음!
 public record ArticleDto(
 				Long id,
 				UserAccountDto userAccountDto,
@@ -38,7 +37,6 @@ public record ArticleDto(
 				);
 		}
 
-		// Entity 를 사용하기 위한 것
 		public Article toEntity() {
 				return Article.of(
 								userAccountDto.toEntity(),
