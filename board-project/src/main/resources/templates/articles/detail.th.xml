@@ -2,8 +2,38 @@
 <!-- Thymeleaf 를 검사해서 HTML 문서에 Thymeleaf Template 속성의 Data 를 넣어주겠다는 의미 -->
 <!-- 순수 HTML 문서에 Thymeleaf Template 을 직접사용 하지 않고 thlogic tag 를 사용하여 HTML tag 에 Thymeleaf Template 속성을 부여하겠다는 의미임!(순수 HTML 에 직접 사용X, 간접적으로 적용이 되게 Version up 하면서 따로 이렇게 설정이 가능!) -->
 <thlogic>
+
     <!--  Header tag 를 불러옴  -->
     <attr sel="#header" th:replace="header :: header" />
     <!--  Footer tag 를 불러옴  -->
     <attr sel="#footer" th:replace="footer :: footer" />
+
+    <!--  Article Main DB에 있는 Data 를 Call  -->
+    <!-- Article Object 를 사용하겠다는 의미 -->
+    <attr sel="#article-main" th:object="${article}">
+        <!-- header tag 에는 title value -->
+        <attr sel="#article-header/h1" th:text="*{title}" />
+        <!-- p tag 에는 nickname value -->
+        <attr sel="#email" th:text="*{nickname}" />
+        <!-- time tag 에는 created-at value -->
+        <attr sel="#created-at" th:datetime="*{createdAt}" th:text="*{#temporals.format(createdAt, 'yyy-MM-dd HH:mm:ss')}" />
+        <!-- span tag 에는 hashtag value -->
+        <attr sel="#hashtag" th:text="*{hashtag}" />
+        <!-- Article tag 에서 pre tag 에 content value -->
+        <attr sel="#article-content/pre" th:text="*{content}" />
+    </attr>
+
+    <!-- Article Comments DB에 있는 Data 를 Call -->
+    <!-- Article Comments 를 사용하겠다는 의미 => ul tag[all-but-first 첫번째만 놔두고 나머지는 지운다는 의미] -->
+    <attr sel="#article-comments" th:remove="all-but-first">
+        <!-- li[0] 째 부터 List 들을 보여줘라! [Article Comments] -->
+        <attr sel="li[0]" th:each="articleComment : ${articleComments}">
+            <!-- div tag 중 strong tag 에 nickname value -->
+            <attr sel="div/strong" th:text="${articleComment.nickname}" />
+            <!-- div tag 중 small tag 안에 time tag 에 createdAt value -->
+            <attr sel="div/small/time" th:datetime="${articleComment.createdAt}" th:text="${#temporals.format(articleComment.createdAt, 'yyy-MM-dd HH:mm:ss')}" />
+            <!-- div tag 중 p tag 에 content value -->
+            <attr sel="div/p" th:text="${articleComment.content}" />
+        </attr>
+    </attr>
 </thlogic>

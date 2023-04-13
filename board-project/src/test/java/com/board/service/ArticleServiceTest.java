@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
-@DisplayName("비즈니스 로직 - 게시글")
+@DisplayName("Business Logic - Post")
 @ExtendWith(MockitoExtension.class)
 class ArticleServiceTest {
 
@@ -67,6 +67,7 @@ class ArticleServiceTest {
 				then(articleRepository).should().findByTitleContaining(searchKeyword, pageable);
 		}
 
+		// 단건 조회 Test
 		@DisplayName("게시글을 조회하면, 게시글을 반환한다.")
 		@Test
 		void givenArticleId_whenSearchingArticle_thenReturnsArticle() {
@@ -103,6 +104,7 @@ class ArticleServiceTest {
 				then(articleRepository).should().findById(articleId);
 		}
 
+		// Post Info => Create
 		@DisplayName("게시글 정보를 입력하면, 게시글을 생성한다.")
 		@Test
 		void givenArticleInfo_whenSavingArticle_thenSavesArticle() {
@@ -117,6 +119,7 @@ class ArticleServiceTest {
 				then(articleRepository).should().save(any(Article.class));
 		}
 
+		// Post Info => Update
 		@DisplayName("게시글의 수정 정보를 입력하면, 게시글을 수정한다.")
 		@Test
 		void givenModifiedArticleInfo_whenUpdatingArticle_thenUpdatesArticle() {
@@ -150,6 +153,7 @@ class ArticleServiceTest {
 				then(articleRepository).should().getReferenceById(dto.id());
 		}
 
+		// Post Info => Delete
 		@DisplayName("게시글의 ID를 입력하면, 게시글을 삭제한다")
 		@Test
 		void givenArticleId_whenDeletingArticle_thenDeletesArticle() {
