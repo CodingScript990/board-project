@@ -6,4 +6,51 @@
     <attr sel="#header" th:replace="header :: header" />
     <!--  Footer tag 를 불러옴  -->
     <attr sel="#footer" th:replace="footer :: footer" />
+
+    <!-- Article Table 을 불러옴 -->
+    <attr sel="#article-table">
+        <attr sel="tbody" th:remove="all-but-first">
+            <!-- article List 를 불러오는 작업을 하는데, tr tag 에서 0 번째 방 부터 보여달라는 의미 -->
+            <attr sel="tr[0]" th:each="article : ${articles}">
+                <!-- title 은 article title 로 불러오는데, a tag 안의 table 을 들고 오고 path 는 /articles/ 뒤에 article id 까지 값을 받아와줘서 표현해줌 -->
+                <attr sel="td.title/a" th:text="${article.title}" th:href="@{'/articles/' + ${article.id}}" />
+                <!-- hashtag 는 article hashtag 로 받아와라 -->
+                <attr sel="td.hashtag" th:text="${article.hashtag}" />
+                <!-- userId 는 article nickname 으로 받아와줘라 -->
+                <attr sel="td.user-id" th:text="${article.nickname}" />
+                <!-- Article 의 createdAt 를 들고오는데, temporals 를 이용하여 yyy-MM-dd 로 Formatting 해줌 -->
+                <attr sel="td.created-at/time" th:datetime="${article.createdAt}" th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd')}" />
+            </attr>
+        </attr>
+    </attr>
+
+    <!-- Pagination nav tag 를 불러옴 -->
+    <attr sel="#pagination">
+        <!-- li index[0] 안에 a tag 를 불러옴 -->
+        <!-- 이전 페이지를 보여주는 작업 -->
+        <attr sel="li[0]/a"
+              th:text="'previous'"
+              th:href="@{/articles(page=${articles.number - 1})}"
+              th:class="'page-link' + (${articles.number} <= 0 ? ' disabled' : '')"
+        />
+        <!-- li index[1] 를 불러옴 -->
+        <!-- 다음 페이지를 보여주는 작업 -->
+        <attr sel="li[1]"
+              th:class="page-item"
+              th:each="pageNumber : ${paginationBarNumbers}">
+            <!-- a tag 에게 pageNumber 를 ++ 하여 증가한 만큼 반복 생성을 해주는 작업 -->
+            <attr sel="a"
+                  th:text="${pageNumber + 1}"
+                  th:href="@{/articles(page=${pageNumber})}"
+                  th:class="'page-link' + (${pageNumber} == ${articles.number} ? ' disabled' : '')"
+            />
+        </attr>
+        <!-- li index[2] 안에 a tag 를 불러옴 -->
+        <!-- 정해 놓은 끝 페이지 수 보다 많아지면, disabled 하여 더이상 증가되지 않도록 유지가 되도록 해줌 -->
+        <attr sel="li[2]/a"
+              th:text="'next'"
+              th:href="@{/articles(page=${articles.number + 1})}"
+              th:class="'page-link' + (${articles.number} >= ${articles.totalPages - 1} ? ' disabled' : '')"
+        />
+    </attr>
 </thlogic>
