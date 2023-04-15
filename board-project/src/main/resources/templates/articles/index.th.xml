@@ -6,6 +6,7 @@
     <attr sel="#header" th:replace="header :: header" />
     <!--  Footer tag 를 불러옴  -->
     <attr sel="#footer" th:replace="footer :: footer" />
+    
     <!-- Main tag 를 불러옴 -->
     <attr sel="main" th:object="${articles}">
         <!-- Article Table 을 불러옴 -->
@@ -78,4 +79,5 @@
             />
         </attr>
     </attr>
+
 </thlogic>

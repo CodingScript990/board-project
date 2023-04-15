@@ -44,6 +44,7 @@ class ArticleControllerTest {
 		// ArticleService, PaginationService add
 		@MockBean
 		private ArticleService articleService;
+		@MockBean private ArticleService articleService;
 		@MockBean private PaginationService paginationService;
 
 		// ArticleControllerTest Constructor add => mvc
@@ -109,6 +110,15 @@ class ArticleControllerTest {
 								.andExpect(view().name("articles/index"))
 								.andExpect(model().attributeExists("articles"))
 								.andExpect(model().attribute("paginationBarNumbers", barNumbers));
+								get("/articles")
+												.queryParam("page", String.valueOf(pageNumber))
+												.queryParam("size", String.valueOf(pageSize))
+												.queryParam("sort", sortName + "," + direction)
+				).andExpect(status().isOk())
+				 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+				 .andExpect(view().name("articles/index"))
+				 .andExpect(model().attributeExists("articles"))
+				 .andExpect(model().attribute("paginationBarNumbers", barNumbers));
 
 				// Then
 				then(articleService).should().searchArticles(null, null, pageable);
