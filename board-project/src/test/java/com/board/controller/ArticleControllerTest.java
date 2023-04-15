@@ -42,6 +42,8 @@ class ArticleControllerTest {
 		private final MockMvc mvc;
 
 		// ArticleService, PaginationService add
+		@MockBean
+		private ArticleService articleService;
 		@MockBean private ArticleService articleService;
 		@MockBean private PaginationService paginationService;
 
@@ -99,6 +101,15 @@ class ArticleControllerTest {
 				given(paginationService.getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages())).willReturn(barNumbers);
 				// When & Then
 				mvc.perform(
+												get("/articles")
+																.queryParam("page", String.valueOf(pageNumber))
+																.queryParam("size", String.valueOf(pageSize))
+																.queryParam("sort", sortName + "," + direction)
+								).andExpect(status().isOk())
+								.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+								.andExpect(view().name("articles/index"))
+								.andExpect(model().attributeExists("articles"))
+								.andExpect(model().attribute("paginationBarNumbers", barNumbers));
 								get("/articles")
 												.queryParam("page", String.valueOf(pageNumber))
 												.queryParam("size", String.valueOf(pageSize))
@@ -112,7 +123,6 @@ class ArticleControllerTest {
 				// Then
 				then(articleService).should().searchArticles(null, null, pageable);
 				then(paginationService).should().getPaginationBarNumbers(pageable.getPageNumber(), Page.empty().getTotalPages());
-
 		}
 
 		// View Get method => Post Detail

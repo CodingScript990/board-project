@@ -50,6 +50,16 @@ class PaginationServiceTest {
 		static Stream<Arguments> givenCurrentPageNumberAndTotalPages_whenCalculating_thenReturnsPaginationBarNumbers () {
 				// 검증하고자 하는 값들을 넣어주는 작업
 				return Stream.of(
+								arguments(0, 13, List.of(0,1,2,3,4)),
+								arguments(1, 13, List.of(0,1,2,3,4)),
+								arguments(2, 13, List.of(0,1,2,3,4)),
+								arguments(3, 13, List.of(1,2,3,4,5)),
+								arguments(4, 13, List.of(2,3,4,5,6)),
+								arguments(5, 13, List.of(3,4,5,6,7)),
+								arguments(6, 13, List.of(4,5,6,7,8)),
+								arguments(10, 13, List.of(8,9,10,11,12)),
+								arguments(11, 13, List.of(9,10,11,12)),
+								arguments(12, 13, List.of(10,11,12))
 						arguments(0, 13, List.of(0,1,2,3,4)),
 						arguments(1, 13, List.of(0,1,2,3,4)),
 						arguments(2, 13, List.of(0,1,2,3,4)),
