@@ -56,7 +56,7 @@ class JpaRepositoryTest {
 			// Given
 			// previousCount long type 으로 article table data count
 				long previousCount = articleRepository.count();
-				UserAccount userAccount = userAccountRepository.save(UserAccount.of("test", "pw", null, null, null));
+				UserAccount userAccount = userAccountRepository.save(UserAccount.of("newTest", "pw", null, null, null));
 				Article article = Article.of(userAccount, "new article", "new content", "#spring");
 
 			// When
